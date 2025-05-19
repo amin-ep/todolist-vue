@@ -1,0 +1,86 @@
+@font-face {
+  font-family: nunito;
+  src: url("/fonts/Nunito-Regular.ttf");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: #ffffff;
+  font-family: nunito;
+}
+
+body {
+  margin: 0;
+}
+
+:root {
+  --color-green-50: oklch(0.982 0.018 155.826);
+  --color-green-100: oklch(0.962 0.044 156.743);
+  --color-green-200: oklch(0.925 0.084 155.995);
+  --color-green-300: oklch(0.871 0.15 154.449);
+  --color-green-400: oklch(0.792 0.209 151.711);
+  --color-green-500: oklch(0.723 0.219 149.579);
+  --color-green-600: oklch(0.627 0.194 149.214);
+  --color-green-700: oklch(0.527 0.154 150.069);
+  --color-green-800: oklch(0.448 0.119 151.328);
+  --color-green-900: oklch(0.393 0.095 152.535);
+  --color-green-950: oklch(0.266 0.065 152.934);
+
+  --color-stone-50: oklch(0.985 0.001 106.423);
+  --color-stone-100: oklch(0.97 0.001 106.424);
+  --color-stone-200: oklch(0.923 0.003 48.717);
+  --color-stone-300: oklch(0.869 0.005 56.366);
+  --color-stone-400: oklch(0.709 0.01 56.259);
+  --color-stone-500: oklch(0.553 0.013 58.071);
+  --color-stone-600: oklch(0.444 0.011 73.639);
+  --color-stone-700: oklch(0.374 0.01 67.558);
+  --color-stone-800: oklch(0.268 0.007 34.298);
+  --color-stone-900: oklch(0.216 0.006 56.043);
+  --color-stone-950: oklch(0.147 0.004 49.25);
+
+  --color-black: #000;
+  --color-white: #fff;
+}
+
+::selection {
+  background-color: var(--color-green-500);
+  color: var(--color-white);
+}
+
+.input {
+  background: white;
+  border-radius: 12px;
+  outline: none;
+  border: 1px solid var(--color-stone-300);
+  padding: 0.5rem 0.75rem;
+  font-size: 14px;
+  width: 100%;
+}
+
+.input:focus {
+  border: 1px solid var(--color-green-500);
+}
+
+.input::placeholder {
+  font-size: 12px;
+  font-style: italic;
+}
+
+@media (min-width: 425px) {
+  .input {
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .input {
+    font-size: 16px;
+  }
+
+  .input::placeholder {
+    font-size: 14px;
+  }
+}
