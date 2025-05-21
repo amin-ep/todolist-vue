@@ -61,12 +61,16 @@ body {
 }
 
 .input:focus {
-  border: 1px solid var(--color-green-500);
+  border: 1px solid var(--color-stone-600);
 }
 
 .input::placeholder {
   font-size: 12px;
   font-style: italic;
+}
+
+button:disabled {
+  cursor: not-allowed !important;
 }
 
 @media (min-width: 425px) {

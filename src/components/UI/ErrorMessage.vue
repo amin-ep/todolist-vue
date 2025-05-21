@@ -9,6 +9,7 @@ p {
   color: red;
   font-size: 12px;
   font-weight: 600;
+  margin: 0;
 }
 
 @media (min-width: 768px) {

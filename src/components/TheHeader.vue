@@ -1,8 +1,13 @@
 <template>
   <header>
     <h1 class="logo">Todo List</h1>
-    <base-button variation="transparent" v-if="isLoggedIn">Logout</base-button>
-    <base-button variation="transparent" @click="openAuth" else
+    <base-button
+      variation="transparent"
+      v-if="isLoggedIn === true"
+      @click="logout"
+      >Logout</base-button
+    >
+    <base-button variation="transparent" @click="openAuth" v-else
       >Sign in</base-button
     >
   </header>
@@ -10,7 +15,13 @@
 
 <script>
 export default {
-  inject: ["isLoggedIn", "openAuth"],
+  inject: ["openAuth", "logout"],
+  props: ["isLoggedIn"],
+  methods: {
+    getStatus() {
+      console.log(this.isLoggedIn);
+    },
+  },
 };
 </script>
 

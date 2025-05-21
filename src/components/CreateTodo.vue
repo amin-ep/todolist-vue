@@ -23,6 +23,7 @@ import { PlusIcon } from "@heroicons/vue/16/solid";
 </template>
 
 <script>
+import { API_BASE_URL } from "../utils/constants";
 export default {
   data() {
     return {
@@ -32,24 +33,27 @@ export default {
       },
     };
   },
-  inject: ["addTodo", "isLoggedIn", "openAuth"],
+  inject: ["openAuth"],
+  props: ["isLoggedIn"],
+  emits: [""],
   methods: {
     createTodo() {
       if (!this.isLoggedIn) {
         this.openAuth();
         return;
       } else {
-        if (this.enteredTitle.length < 1) {
+        const title = this.enteredTitle;
+        if (title.length < 1) {
           this.errors.title = "Title is required";
           return;
-        } else if (this.enteredTitle.length > 30) {
+        } else if (title.length > 30) {
           this.errors.title = "Title must be 30 or less chars";
           return;
         }
         this.errors = {
           title: null,
         };
-        this.addTodo(this.enteredTitle);
+        this.$emit("addTodo", this.enteredTitle);
         this.enteredTitle = "";
       }
     },

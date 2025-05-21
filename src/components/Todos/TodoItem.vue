@@ -1,10 +1,12 @@
 <template>
   <li>
     <div>
-      <input type="checkbox" />
+      <input type="checkbox" :defaultChecked="completed" />
       <p :class="completed && 'completed'">{{ title }}</p>
     </div>
-    <button @click="deleteTodo(id)">x</button>
+    <div>
+      <button @click="removeTodo" class="remove-btn">x</button>
+    </div>
   </li>
 </template>
 
@@ -24,7 +26,12 @@ export default {
       required: true,
     },
   },
-  inject: ["deleteTodo"],
+  emits: ["deleteTodo"],
+  methods: {
+    removeTodo() {
+      this.$emit("deleteTodo", this.id);
+    },
+  },
 };
 </script>
 
@@ -55,6 +62,26 @@ p {
   text-decoration: line-through;
   color: var(--color-stone-400);
   font-style: italic;
+}
+
+.remove-btn {
+  all: unset;
+  cursor: pointer;
+  background: var(--color-stone-600);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1/1;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+
+  border-radius: 2.5px;
+}
+
+.remove-btn:hover {
+  background: var(--color-stone-700);
 }
 @media (min-width: 425px) {
   li {
