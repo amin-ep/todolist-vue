@@ -23,7 +23,6 @@ import { PlusIcon } from "@heroicons/vue/16/solid";
 </template>
 
 <script>
-import { API_BASE_URL } from "../utils/constants";
 export default {
   data() {
     return {
@@ -35,7 +34,6 @@ export default {
   },
   inject: ["openAuth"],
   props: ["isLoggedIn"],
-  emits: [""],
   methods: {
     createTodo() {
       if (!this.isLoggedIn) {
@@ -64,7 +62,6 @@ export default {
 <style scoped>
 form {
   display: flex;
-
   flex-direction: column;
 }
 
@@ -91,6 +88,7 @@ header {
   align-items: center;
   justify-content: center;
   right: 0;
+  width: 34px;
 }
 
 @media (min-width: 425px) {
@@ -113,6 +111,7 @@ header {
     font-size: 28px;
   }
   .submit-btn {
+    height: 44px;
     height: 44px;
   }
 

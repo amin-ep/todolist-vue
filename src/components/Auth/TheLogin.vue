@@ -34,7 +34,7 @@
 
 <script>
 import { API_BASE_URL, AUTH_TOKEN_KEY } from "../../utils/constants";
-
+import { toast } from "vue3-toastify";
 export default {
   data() {
     return {
@@ -47,9 +47,7 @@ export default {
       },
     };
   },
-  inject: ["login"],
-  watch() {},
-  computed: {},
+  inject: ["login", "closeAuth"],
   methods: {
     async submitForm() {
       const username = this.enteredUsername;
@@ -82,6 +80,10 @@ export default {
         this.errors.password = null;
       }
 
+      const loginToast = toast.loading("Logging in...", {
+        closeButton: false,
+        closeOnClick: false,
+      });
       this.isPending = true;
       fetch(`${API_BASE_URL}/auth/login`, {
         headers: {
@@ -91,15 +93,39 @@ export default {
         method: "POST",
       })
         .then((res) => {
-          if (res.ok) {
-            return res.json();
-          }
+          return res.json();
         })
         .then((data) => {
-          // HERE
-          // setCookie(AUTH_TOKEN_KEY, data.token, 7);
-          this.$cookies.set(AUTH_TOKEN_KEY, data.token, "10d");
-          this.login();
+          if (data.status === "success") {
+            toast.update(loginToast, {
+              type: "success",
+              render: `Welcome back ${data.data.name}`,
+              autoClose: 4000,
+              isLoading: false,
+              closeButton: true,
+              closeOnClick: true,
+            });
+            this.$cookies.set(AUTH_TOKEN_KEY, data.token, "10d");
+            this.login();
+            this.closeAuth();
+          } else {
+            toast.update(loginToast, {
+              type: "error",
+              render: data.message || "Something went wrong!",
+              autoClose: 6000,
+              isLoading: false,
+              closeButton: true,
+              closeOnClick: true,
+            });
+          }
+        })
+        .catch(() => {
+          toast.update(loginToast, {
+            autoClose: 500,
+            render: "Something went wrong!",
+            closeButton: true,
+            closeOnClick: true,
+          });
         })
         .finally(() => {
           this.isPending = false;

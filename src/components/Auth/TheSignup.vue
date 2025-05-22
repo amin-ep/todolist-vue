@@ -22,7 +22,12 @@
       errors.password
     }}</error-message>
 
-    <base-button variation="green" type="submit" class="submit-button">
+    <base-button
+      :disabled="isPending"
+      variation="green"
+      type="submit"
+      class="submit-button"
+    >
       <base-spinner v-if="isPending"></base-spinner>
       <span v-else>Sign Up</span></base-button
     >
@@ -30,7 +35,8 @@
 </template>
 
 <script>
-import { API_BASE_URL } from "../../utils/constants";
+import { toast } from "vue3-toastify";
+import { API_BASE_URL, AUTH_TOKEN_KEY } from "../../utils/constants";
 export default {
   data() {
     return {
@@ -88,7 +94,10 @@ export default {
       }
 
       this.isPending = true;
-
+      const signupTost = toast.loading("Signing in...", {
+        closeButton: false,
+        closeOnClick: false,
+      });
       fetch(`${API_BASE_URL}/auth/signup`, {
         headers: {
           "Content-Type": "application/json",
@@ -101,14 +110,41 @@ export default {
         method: "POST",
       })
         .then((res) => {
-          if (res.ok) {
-            this.login();
-            this.closeAuth();
-            return res.json();
-          }
+          return res.json();
         })
         .then((data) => {
           console.log(data);
+          if (data.status === "success") {
+            toast.update(signupTost, {
+              type: "success",
+              render: `Welcome ${data.data.name}`,
+              autoClose: 4000,
+              isLoading: false,
+              closeButton: true,
+              closeOnClick: true,
+            });
+
+            this.$cookies.set(AUTH_TOKEN_KEY, data.token, "10d");
+            this.login();
+            this.closeAuth();
+          } else {
+            toast.update(signupTost, {
+              type: "error",
+              render: data.message || "Something went wrong!",
+              autoClose: 6000,
+              isLoading: false,
+              closeButton: true,
+              closeOnClick: true,
+            });
+          }
+        })
+        .catch(() => {
+          toast.update(signupTost, {
+            autoClose: 500,
+            render: "Something went wrong!",
+            closeButton: true,
+            closeOnClick: true,
+          });
         })
         .finally(() => {
           this.isPending = false;
